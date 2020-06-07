@@ -1,5 +1,9 @@
 WhoPulled_GUIDs = {};
 WhoPulled_MobToPlayer = {};
+WhoPulled_NotifiedOf = {};
+WhoPulled_PetsToMaster = {};
+WhoPulled_RageList = {};
+WhoPulled_Tanks = "";
 WhoPulled_LastMob = "";
 WhoPulled_Settings = {
 ["yonboss"] = false,
@@ -7,16 +11,19 @@ WhoPulled_Settings = {
 ["silent"] = false,
 ["msg"] = "%p PULLED %e!!!",
 }
-WhoPulled_PetsToMaster = {};
-WhoPulled_Tanks = "";
-WhoPulled_RageList = {};
 WhoPulled_Ignore = {
 ["Rat"]=true,["Spider"]=true,["Risen Zombie"]=true,
 };
-WhoPulled_NotifiedOf = {};
+
+--show commands option on startup
+DEFAULT_CHAT_FRAME:AddMessage("WhoPulled loaded.");
+DEFAULT_CHAT_FRAME:AddMessage("/wp help [topic] For help on a specific function.");
 
 function WhoPulled_ClearPulledList()
-	wipe(WhoPulled_GUIDs);
+	--wipe(); is not working as intended in TBC.
+	--a workaround would be to clear the array directly. eg:
+	--WhoPulled_MobToPlayer = {}; instead of wipe(WhoPulled_MobToPlayer);
+    WhoPulled_GUIDs = {};
 end
 
 function WhoPulled_PullBlah(player,enemy,msg)
@@ -114,9 +121,12 @@ function WhoPulled_ScanMembers()
 end
 
 function WhoPulled_OnLeaveParty()
-	wipe(WhoPulled_PetsToMaster);
+	--wipe(); is not working as intended in TBC.
+	--a workaround would be to clear the array directly. eg:
+	-- WhoPulled_MobToPlayer = {}; instead of wipe(WhoPulled_MobToPlayer);
+	WhoPulled_PetsToMaster = {};
 	WhoPulled_Tanks = "";
-	wipe(WhoPulled_NotifiedOf);
+	WhoPulled_NotifiedOf = {};
 end
 
 function WhoPulled_IgnoredSpell(spell)
@@ -202,7 +212,10 @@ function WhoPulled_CLI(line)
 		line = "";
 	end
 	if(comm == "clear")then
-		wipe(WhoPulled_MobToPlayer);
+		--wipe(); is not working as intended in TBC.
+		--a workaround would be to clear the array directly. eg:
+		-- WhoPulled_MobToPlayer = {}; instead of wipe(WhoPulled_MobToPlayer);
+		WhoPulled_MobToPlayer = {};
 		WhoPulled_LastMob = "";
 	elseif(comm == "boss")then
 		line = strlower(line);
