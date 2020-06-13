@@ -144,18 +144,18 @@ function WhoPulled_CheckWho(...)
 		   not strfind(event,"_RESURRECT") and not strfind(event,"_CREATE") and 
 		   (strfind(event,"SWING") or strfind(event,"RANGE") or strfind(event,"SPELL"))) then
 		 if(not strfind(event,"_SUMMON")) then
-			if(bit.band(sflags,COMBATLOG_OBJECT_TYPE_PLAYER) ~= 0 and bit.band(dflags,COMBATLOG_OBJECT_TYPE_NPC) ~= 0) then
+			if(strfind(event,"SWING") or strfind(event,"RANGE") or strfind(event,"SPELL") and bit.band(sflags,COMBATLOG_OBJECT_TYPE_PLAYER) ~= 0 and bit.band(dflags,COMBATLOG_OBJECT_TYPE_NPC) ~= 0) then
 				--A player is attacking a mob
 				if(not WhoPulled_IgnoredSpell(arg2)) then
 					--Put this here so it still counts as aggro if a mob casts one of these on a player.
 					WhoPulled_PullBlah(sname,{dguid,dname},
 						sname.." pulled "..dname.."! /ywho to tell everyone!");
 				end
-			elseif(bit.band(dflags,COMBATLOG_OBJECT_TYPE_PLAYER) ~= 0 and bit.band(sflags,COMBATLOG_OBJECT_TYPE_NPC) ~= 0) then
+			elseif(strfind(event,"SWING") or strfind(event,"RANGE") or strfind(event,"SPELL") and bit.band(dflags,COMBATLOG_OBJECT_TYPE_PLAYER) ~= 0 and bit.band(sflags,COMBATLOG_OBJECT_TYPE_NPC) ~= 0) then
 				--A mob is attacking a player (stepped onto, perhaps?)
 				WhoPulled_PullBlah(dname,{sguid,sname},
 					dname.." pulled "..sname.."! /ywho to tell everyone!");
-			elseif(bit.band(sflags,COMBATLOG_OBJECT_CONTROL_PLAYER) ~= 0 and bit.band(dflags,COMBATLOG_OBJECT_TYPE_NPC) ~= 0) then
+			elseif(strfind(event,"SWING") or strfind(event,"RANGE") or strfind(event,"SPELL") and bit.band(sflags,COMBATLOG_OBJECT_CONTROL_PLAYER) ~= 0 and bit.band(dflags,COMBATLOG_OBJECT_TYPE_NPC) ~= 0) then
 				--Player's pet attacks a mob
 				--DEFAULT_CHAT_FRAME:AddMessage("Testing pet pull 1. Did "..sname.." ("..sflags..") pull "..dname.." ("..dflags..")?");
 				local pullname;
@@ -165,7 +165,7 @@ function WhoPulled_CheckWho(...)
 				end
 				WhoPulled_PullBlah(pullname,{dguid,dname},
 					pname.."'s "..sname.." pulled "..dname.."! /ywho to tell everyone!");
-			elseif(bit.band(sflags,COMBATLOG_OBJECT_CONTROL_PLAYER) ~= 0 and bit.band(sflags,COMBATLOG_OBJECT_TYPE_NPC) ~= 0) then
+			elseif(strfind(event,"SWING") or strfind(event,"RANGE") or strfind(event,"SPELL") and bit.band(sflags,COMBATLOG_OBJECT_CONTROL_PLAYER) ~= 0 and bit.band(sflags,COMBATLOG_OBJECT_TYPE_NPC) ~= 0) then
 				--Mob attacks a player's pet
 				--DEFAULT_CHAT_FRAME:AddMessage("Testing pet pull 1. Did "..dname.." ("..dflags..") pull "..sname.." ("..sflags..")?");
 				local pullname;
